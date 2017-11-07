@@ -20,10 +20,35 @@ The following HTTP status codes will be returned by  API in case an error condit
  #404 – Not Found
  #405 - Method Not Allowed
 
-c) API Model and JSON Structure : REST API definition begins by modelling a set of resources to expose API fo partner or external World. Used RESTful API Modeling Language (RAML) to define API spec and JSON schema to validate the API request/Response Model
-d) 
+c) API? ?Model? ?and? ?JSON? ?Structure? : REST API definition begins by modelling a set of
+resources to expose API fo partner or external World. Used RESTful API Modeling
+Language (RAML) to define API spec and JSON schema to validate the API
+request/Response Model
 
-<p align="center">
-  <img src="your_relative_path_here" width="350"/>
-  <img src="your_relative_path_here_number_2_large_name" width="350"/>
-</p>
+d) API? ?Specification? ?:? A single monolithic word document covering all your APIs which
+replaced separate word documents and difficult to maintain and do not provide an easy way to to
+link User Stories to API Specifications. This is a holistic explanation? of the API? ?for? ?Weather
+Information? ?that? ?can? ?easily? ?accessable? ?by? ?Partner? ?or? ?3rd? ? ?Party? ?who? ?wants? ?to? ?consume
+this? ?API
+
+RAML? ?File? ?:
+Location : /rest-api-howto_1.0.0/src/main/api/api.raml
+
+Mule? ?Flow? ?:
+? The API designed using RESTful design principles.(RAML and JSON Schema)
+? The API must use DataWeave code to transform the message. (REST to SOAP transform)
+? The API must provide suitable error handling (Customized Error handle using Ref Exception
+Strategy)
+
+Build? ?Process? ?:
+The application is created using Maven build (rest-api-howto_1.0.0\mule-project.xml)
+For On Premise deployment , follow below steps
+Run As ---> 1. Mule Application (refer below screenshot)
+
+Unit? ?Testing? ?:
+Developed MUnit ( application testing framework ) test cases which allows to build
+automated tests for your Mule integrations and API's for Weather info API. Defined
+here two Munit test cases for Get Weather info and GetCitiesByCountry API
+I have used Assert? ?Payload?,to define Expected? ?Value? and in this case, it will be
+payload. Also, provide Test? ?Failure? ?Message
+
