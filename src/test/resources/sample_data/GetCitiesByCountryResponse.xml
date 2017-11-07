@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:GetCitiesByCountryResponse xmlns:ns0="http://www.webserviceX.NET">
+  <ns0:GetCitiesByCountryResult>Australia</ns0:GetCitiesByCountryResult>
+</ns0:GetCitiesByCountryResponse>

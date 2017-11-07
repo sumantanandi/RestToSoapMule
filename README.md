@@ -1,46 +1,29 @@
 
-#Build REST API on top of SOAP based webservice
-#
-This example illustrates how to define a REST API on top of an existing web service. 
-It is complementary to a developer blog series [Part 2]() that gives step by step instructions to build out this example.
+#Build REST API on top of SOAP based Weather Web Service
 
-This example is a follow up to [Part 1](http://blogs.mulesoft.com/dev/wrap-soap-web-service-around-a-database/) of the developer blog series. 
+#Motivation :
 
+a) As part of Digital Transformation Journey, an existing set of SOAP based services that business would like to expose through APIs in order to foster growth within the mobile and device market. 
+b) The  A business team knows that an increased mobile and device application presence will enhance their brand image and increase customer satisfaction.
+c) The  A business team have had requirements from their mobile application developers to expose their existing web services as JSON REST APIs. 
+d) JSON Payloads are smaller than the same data in SOAP format which reduces the amount of bandwidth required for mobile applications. JSON is also an easier data format to work with in JavaScript which is a popular programming language for mobile development.
+e) After considering building their own API management solution, the  Architect and CTO  team has decided to implement an iPaaS solution using Mulesoft as a strategic platform as it will allow them to enter the market quickly at a reduced cost.
 
-###Assumptions
-###
-This document describes the details of the example within the context of
-Anypointâ„¢ Studio, Mule ESBâ€™s graphical user interface (GUI). Where
-appropriate, the XML configuration accompanies the Studio interface
-screenshots. This document assumes that you are familiar with Mule ESB,
-the [Anypoint Studio
-interface](http://www.mulesoft.org/documentation/display/current/
-Anypoint+Studio+Essentials)
+#RESTful design principles : 
 
+a) API Version : The API Version will be managed on the service level (fine-grained). The service version will be defined as a parameter version of the service’s RESTful URI, and the value will be the version of the service
+b) HTTP Status Usage : A successful execution of the  API service request should return HTTP status of 200 OK with the corresponding JSON payload. Business exceptions (those determined by the back-end service Providers) will be indicated through the status block in the JSON payload.
+The following HTTP status codes will be returned by  API in case an error condition had been detected. Additional codes, when meaningful, can be added to the below list over time
+ #400 – Bad Request
+ #401 – Unauthorized
+ #403 - Forbidden
+ #404 – Not Found
+ #405 - Method Not Allowed
 
+c) API Model and JSON Structure : REST API definition begins by modelling a set of resources to expose API fo partner or external World. Used RESTful API Modeling Language (RAML) to define API spec and JSON schema to validate the API request/Response Model
+d) 
 
-###Example Use Case
-###
-In this example we have an existing SOAP based web service that takes in customer id or loan id and returns the corresponding details. 
-We define a RESTful interface on top of this SOAP web service using the Anypoint Platform using a design first approach. 
-
-###Set Up and Run the Example
-###
-
-As with other [examples](https://www.mulesoft.com/exchange#!/?types=example), you can create template applications straight out of the box in Anypoint Studio. You can tweak the configurations of these use case-based examples to create your own customized applications in Mule.
-
-Follow the procedure below to create, then run the REST Proxy HowTo example. 
-1. In this usecase we are proxying to a SOAP webservice. Refer to [Part 1](http://blogs.mulesoft.com/dev/wrap-soap-web-service-around-a-database/) to download and deploy the web service on cloud hub. 
-2. Download the project rest-proxy-howto_1.0.0 from Anypoint Exchange, export it into Anypoint Studio. 
-3. Open the configuration file "rest-proxy-soap.xml". Configure the "SOAP Webservice" component connector configuration "Web_Service_Consumer". Enter the correct WSDL location for the SOAP based web service that we are creating proxy to. 
-   This will populate all the other fields in the "Web_Service_Consumer" resource.   
-4. If you have deployed the web service as instructed in step 1 then the corresponding mappings would be valid. If you are using a different web service to proxy to then change the mappings in the component "Transform to SOAP request" and "Transform from SOAP response". 
-5. Once the mappings are configured correctly run the project as a mule application in Anypoint Studio. Once the project is running successfully, the API console will come up which can be used to test the REST API. 
-
-
-
-
-###Go Further
-###
-* View this
-
+<p align="center">
+  <img src="your_relative_path_here" width="350"/>
+  <img src="your_relative_path_here_number_2_large_name" width="350"/>
+</p>

@@ -1,6 +1,6 @@
 <metadata__cache__entry>
   <version>5.2.0.0</version>
-  <connectorName>Web_Service_Consumer</connectorName>
+  <connectorName>Web_Service_Consumer_Get_Weather_Info</connectorName>
   <metadataIo class="tree-map">
     <entry>
       <string>GetWeather</string>
@@ -10,7 +10,7 @@
           <org.mule.tooling.metadata.cache.DefaultMetadataCacheEntry>
             <input class="org.mule.common.metadata.DefaultMetaData">
               <payload class="org.mule.tooling.metadata.api.TypeRefMetaDataModel">
-                <connectorName>Web_Service_Consumer</connectorName>
+                <connectorName>Web_Service_Consumer_Get_Weather_Info</connectorName>
                 <typeId>GetWeather</typeId>
                 <category>DEFAULT</category>
               </payload>
@@ -49,7 +49,7 @@
             </input>
             <output class="org.mule.common.metadata.DefaultMetaData">
               <payload class="org.mule.tooling.metadata.api.TypeRefMetaDataModel">
-                <connectorName>Web_Service_Consumer</connectorName>
+                <connectorName>Web_Service_Consumer_Get_Weather_Info</connectorName>
                 <typeId>GetWeatherResponse</typeId>
                 <category>DEFAULT</category>
               </payload>

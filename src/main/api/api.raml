@@ -1,56 +1,113 @@
 #%RAML 0.8
-title: loan_REST_API
+title: Weather_REST_API
 version: 1.0
 baseUri: http://server/api/{version}
-/loan:
-  displayName: Loan Object
+/GetCitiesByCountry:
+  displayName: Weather Information
   get:
-    description: query loan object
+    description: This is used to get Weather Information based on City Name and Country Name
     queryParameters:
-      loanId:
+      countryName:
     responses:
       200:
         body:
           application/json:
             example: |
-              {
-                "loan" : {
-                            "id":"1",
-                            "type":"creditcard",
-                            "interestRate":"2.2"
-                          }
-              }
+                {
+                "cityinfo": [
+                  {
+                    "Country": "Australia",
+                    "City": "Brisbane Airport M. O"
+                  },
+                  {
+                    "Country": "Australia",
+                    "City": "Cairns Airport"
+                  },
+                  {
+                    "Country": "Australia",
+                     "City": "Gladstone"
+                  }
+                ]
+                }
             schema: |
               {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "id": "http://jsonschema.net",
                 "type": "object",
                 "properties": {
-                "loan": {
-                "id": "http://jsonschema.net/loan",
+                "cityinfo": {
+                "id": "http://jsonschema.net/weather",
                 "type": "object",
                 "properties": {
                 "id": {
-                "id": "http://jsonschema.net/loan/id",
+                "Country": "http://jsonschema.net/weather/Country",
                 "type": "string"
                 },
                 "type": {
-                "id": "http://jsonschema.net/loan/type",
-                "type": "string"
-                },
-                "interestRate": {
-                "id": "http://jsonschema.net/loan/interestRate",
+                "City": "http://jsonschema.net/weather/City",
                 "type": "string"
                 }
                 },
                 "required": [
                 "id",
-                "type",
-                "interestRate"
+                "type"
                 ]
                 }
                 },
                 "required": [
-                "loan"
+                "cityinfo"
                 ]
                 }
+/GetWeather:
+ displayName: Get Weather Information Based on City and Country
+ get:
+    description: This is used to get Weather Information based on City Name and Country Name
+    queryParameters:
+      countryName:
+      cityName:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+                {
+                  "Location":"Melbourne",
+                  "Time":"AM",
+                  "Wind":"15 km per hour",
+                  "Visibility":"10 KM",
+                  "SkyConditions" : "sunny",
+                  "Temperature" : "18",
+                  "DewPoint" : "2 C",
+                  "RelativeHumidity" : "35",
+                  "Status" : "Normal"
+                }
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "id": "http://jsonschema.net",
+                "type": "object",
+                "properties": {
+                "cityinfo": {
+                "id": "http://jsonschema.net/getweather",
+                "type": "object",
+                "properties": {
+                "id": {
+                "Location": "http://jsonschema.net/getweather/Location",
+                "type": "string"
+                },
+                "type": {
+                "Time": "http://jsonschema.net/getweather/Time",
+                "type": "string"
+                }
+                },
+                "required": [
+                "id",
+                "type"
+                ]
+                }
+                },
+                "required": [
+                  "cityinfo"
+                ]
+                }
+

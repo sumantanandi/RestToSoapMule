@@ -1,47 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw"
+<mule xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw"
 	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/schema/mule/api-platform-gw/current/mule-api-platform-gw.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
-http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd" >
-    <http:listener-config name="api-httpListenerConfig" host="0.0.0.0" port="9292" doc:name="HTTP Listener Configuration"/>
-    <api-platform-gw:api id="rest-api-howto-api" apiName="rest-api-howto-api" version="1.0.0" flowRef="api-main" create="true" doc:name="API Autodiscovery">
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd" >
+    <http:listener-config name="api-httpListenerConfig" host="0.0.0.0" port="8088" doc:name="HTTP Listener Configuration"/>
+    <api-platform-gw:api id="rest-api-howto-api" apiName="rest-api-howto-soap-api" version="1.0.0" flowRef="api-main" create="true" doc:name="API Autodiscovery">
     </api-platform-gw:api>
     <apikit:config name="api-config" raml="api.raml" consoleEnabled="true" consolePath="console" doc:name="Router" keepRamlBaseUri="false"/>
-    <ws:consumer-config name="Web_Service_Consumer" wsdlLocation="soap_mysql_howto_wsdl.wsdl" service="loan_system_api_wsdl" port="loan_system_api_wsdlSOAP" serviceAddress="http://soap-mysql-howto.cloudhub.io/bank/loan" doc:name="Web Service Consumer"/>
+    <ws:consumer-config name="Web_Service_Consumer" wsdlLocation="globalweather.wsdl" service="GlobalWeather" port="GlobalWeatherSoap" serviceAddress="http://127.0.0.1:8080/GlobalWeather/" doc:name="Web Service Consumer"/>
     <flow name="api-main">
         <http:listener config-ref="api-httpListenerConfig" path="/api/*" doc:name="HTTP"/>
         <apikit:router config-ref="api-config" doc:name="APIkit Router"/>
         <exception-strategy ref="api-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
     </flow>
     
-    <flow name="get:/loan:api-config">
+    <flow name="get:/GetCitiesByCountry:api-config">
         <dw:transform-message doc:name="Transform to SOAP Request">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/xml
 %namespace sch http://www.mulesoft.com/schemas/Mule/Schema.xsd
+%namespace web http://www.webserviceX.NET
+%namespace soapenv http://schemas.xmlsoap.org/soap/envelope/
 ---
 {
-	sch#getLoanRequest: {
-		sch#loanId: inboundProperties."http.query.params".loanId
+	soapenv#Envelope: {
+		soapenv#Body: {
+	web#GetCitiesByCountry: {
+		web#CountryName: inboundProperties."http.query.params".countryName
+	}
+	}
 	}
 }]]></dw:set-payload>
         </dw:transform-message>
-        <ws:consumer config-ref="Web_Service_Consumer" doc:name="SOAP WebService" operation="getLoan"/>
+
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <ws:consumer config-ref="Web_Service_Consumer" doc:name="Web Service Consumer" operation="GetCitiesByCountry"/>
+        <logger message="Web service Callled==================" level="INFO" doc:name="Logger"/>
+
         <dw:transform-message doc:name="Transform from SOAP Response">
+            <dw:input-payload doc:sample="sample_data\GetCitiesByCountryResponse.xml"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 %namespace ns0 http://www.mulesoft.com/schemas/Mule/Schema.xsd
+%namespace ns01 http://www.webserviceX.NET
 ---
 {
-	loan: {
-		id: payload.ns0#getLoanResponse.ns0#loanList.ns0#loan.ns0#loanId,
-		interestRate: payload.ns0#getLoanResponse.ns0#loanList.ns0#loan.ns0#interestRate,
-		type: payload.ns0#getLoanResponse.ns0#loanList.ns0#loan.ns0#loanType
+	cityinfo: payload.ns01#GetCitiesByCountryResponse.ns01#GetCitiesByCountryResult,
+	(payload map ((payload01 , indexOfPayload01) -> {
+             
+                 ns0#Country: "Australia",
+                 ns0#City: payload01.first_name
+             
+         }))
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+    </flow>
+    <flow name="get:/GetWeather:api-config">
+        <logger message="#[payload]" level="INFO" doc:name="Message Received"/>
+        <dw:transform-message doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace sch http://www.mulesoft.com/schemas/Mule/Schema.xsd
+%namespace web http://www.webserviceX.NET
+%namespace soapenv http://schemas.xmlsoap.org/soap/envelope/
+---
+{
+	
+soapenv#Envelope: {
+	soapenv#Body: {
+	web#GetWeather: {
+		web#CityName: inboundProperties."http.query.params".cityName,
+		web#CountryName: inboundProperties."http.query.params".countryName
 	}
+		}
+	}
+}
+	
+]]></dw:set-payload>
+        </dw:transform-message>
+        <logger level="INFO" doc:name="Logger" message="#[payload]"/>
+        <ws:consumer config-ref="Web_Service_Consumer" operation="GetWeather" doc:name="Web Service Consumer"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger Response Message"/>
+        <dw:transform-message doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
 }]]></dw:set-payload>
         </dw:transform-message>
     </flow>
