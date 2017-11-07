@@ -27,6 +27,8 @@ d) API Specification: A single monolithic word document covering all your APIs w
 link User Stories to API Specifications. This is a holistic explanation? of the API for Weather Information that can easily accessable by Partner or 3rd Party who wants to consume
 this API
 
+#API Console : http://127.0.0.1:8088/api/console  
+
 #RAML File :
 #Location : /rest-api-howto_1.0.0/src/main/api/api.raml
 

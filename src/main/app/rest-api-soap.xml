@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw"
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw"
 	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/schema/mule/api-platform-gw/current/mule-api-platform-gw.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
@@ -8,7 +8,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd" >
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd" >
     <http:listener-config name="api-httpListenerConfig" host="0.0.0.0" port="8088" doc:name="HTTP Listener Configuration"/>
     <api-platform-gw:api id="rest-api-howto-api" apiName="rest-api-howto-soap-api" version="1.0.0" flowRef="api-main" create="true" doc:name="API Autodiscovery">
     </api-platform-gw:api>
@@ -29,12 +30,8 @@ http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/
 %namespace soapenv http://schemas.xmlsoap.org/soap/envelope/
 ---
 {
-	soapenv#Envelope: {
-		soapenv#Body: {
 	web#GetCitiesByCountry: {
 		web#CountryName: inboundProperties."http.query.params".countryName
-	}
-	}
 	}
 }]]></dw:set-payload>
         </dw:transform-message>
@@ -42,57 +39,341 @@ http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
         <ws:consumer config-ref="Web_Service_Consumer" doc:name="Web Service Consumer" operation="GetCitiesByCountry"/>
         <logger message="Web service Callled==================" level="INFO" doc:name="Logger"/>
+        <set-payload value="&lt;![CDATA[&amp;lt;NewDataSet&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Archerfield Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Amberley Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Alice Springs Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Brisbane Airport M. O&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Coolangatta Airport Aws&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Cairns Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Charleville Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Gladstone&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Longreach Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Mount Isa Amo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Mackay Mo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Oakey Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Proserpine Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Rockhampton Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Broome Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Townsville Amo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Weipa City&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Gove Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Tennant Creek Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Yulara Aws&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Albury Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Devonport East&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Goldstream Aws&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;East Sale Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Hobart Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Launceston Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Laverton Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Moorabbin Airport Aws&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Mount Gambier Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Mildura Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Melbourne Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Macquarie Island&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Wynyard West&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Adelaide Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Albany Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Broken Hill Patton Street&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Ceduna Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Derby&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Darwin Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Bullsbrook Pearce Amo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Edinburgh M. O.&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Forrest Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Geraldton Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Kalgoorlie Boulder Amo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Kununurra Kununurra Aws&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Leigh Creek Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Learmonth Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Meekatharra Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Port Hedland Pardoo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Parafield Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Belmont Perth Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Katherine Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Woomera Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Bankstown Airport Aws&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Canberra&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Coffs Harbour Mo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Cooma&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Camden Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Dubbo&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Norfolk Island Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Nowra Ran Air Station&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Richmond Aus-Afb&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Sydney Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Tamworth Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Wagga Airport&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+  &amp;lt;Table&amp;gt;
+    &amp;lt;Country&amp;gt;Australia&amp;lt;/Country&amp;gt;
+    &amp;lt;City&amp;gt;Williamtown Aerodrome&amp;lt;/City&amp;gt;
+  &amp;lt;/Table&amp;gt;
+&amp;lt;/NewDataSet&amp;gt;]]&gt;" mimeType="application/xml" doc:name="Set Payload"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
 
         <dw:transform-message doc:name="Transform from SOAP Response">
-            <dw:input-payload doc:sample="sample_data\GetCitiesByCountryResponse.xml"/>
+            <dw:input-payload doc:sample="sample_data\GetCitiesByCountryResponse.xml" mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
-%output application/json
-%namespace ns0 http://www.mulesoft.com/schemas/Mule/Schema.xsd
-%namespace ns01 http://www.webserviceX.NET
----
-{
-	cityinfo: payload.ns01#GetCitiesByCountryResponse.ns01#GetCitiesByCountryResult,
-	(payload map ((payload01 , indexOfPayload01) -> {
-             
-                 ns0#Country: "Australia",
-                 ns0#City: payload01.first_name
-             
-         }))
-}]]></dw:set-payload>
+ %output application/json
+ %namespace ns0 http://www.webserviceX.NET
+ ---
+ payload.NewDataSet.*Table map ((table , indexOfTable) -> {
+             Name: table.Name,
+             Location: table.Location
+         })]]></dw:set-payload>
         </dw:transform-message>
         <logger message="#[payload]" level="INFO" doc:name="Logger"/>
     </flow>
     <flow name="get:/GetWeather:api-config">
-        <logger message="#[payload]" level="INFO" doc:name="Message Received"/>
         <dw:transform-message doc:name="Transform Message">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/xml
-%namespace sch http://www.mulesoft.com/schemas/Mule/Schema.xsd
-%namespace web http://www.webserviceX.NET
 %namespace soapenv http://schemas.xmlsoap.org/soap/envelope/
+%namespace ns0 http://www.webserviceX.NET
 ---
 {
 	
-soapenv#Envelope: {
-	soapenv#Body: {
-	web#GetWeather: {
-		web#CityName: inboundProperties."http.query.params".cityName,
-		web#CountryName: inboundProperties."http.query.params".countryName
+	ns0#GetWeather: {
+		ns0#CityName: inboundProperties."http.query.params".cityName,
+		ns0#CountryName: inboundProperties."http.query.params".countryName
 	}
-		}
-	}
-}
-	
-]]></dw:set-payload>
+}]]></dw:set-payload>
         </dw:transform-message>
-        <logger level="INFO" doc:name="Logger" message="#[payload]"/>
+        <logger message="#[payload]" level="INFO" metadata:id="165a98e4-d3c8-42a7-96de-f1d4d63abd74" doc:name="Logger"/>
         <ws:consumer config-ref="Web_Service_Consumer" operation="GetWeather" doc:name="Web Service Consumer"/>
-        <logger message="#[payload]" level="INFO" doc:name="Logger Response Message"/>
+        <logger message="Web service called succesfully" level="INFO" doc:name="Logger"/>
+        <set-payload value="&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:tm=&quot;http://microsoft.com/wsdl/mime/textMatching/&quot; xmlns:tns=&quot;http://www.webserviceX.NET&quot;&gt;
+   &lt;soap:Body&gt;
+      &lt;GetWeatherResponse xmlns=&quot;http://www.webserviceX.NET&quot;&gt;&lt;![CDATA[&lt;NewDataSet&gt;
+    &amp;lt;Location&amp;gt;Melbourne&amp;lt;/Location&amp;gt;
+    &amp;lt;Time&amp;gt;11 AM&amp;lt;/Time&amp;gt;
+    &amp;lt;Wind&amp;gt;15 km per hour&amp;lt;/Wind&amp;gt;
+    &amp;lt;Visibility&amp;gt;10 km&amp;lt;/Visibility&amp;gt;
+    &amp;lt;SkyConditions&amp;gt;sunny&amp;lt;/SkyConditions&amp;gt;
+    &amp;lt;Temperature&amp;gt;18&amp;lt;/Temperature&amp;gt;
+    &amp;lt;DewPoint&amp;gt;2 C&amp;lt;/DewPoint&amp;gt;
+    &amp;lt;RelativeHumidity&amp;gt;35&amp;lt;/Pressure&amp;gt;
+    &amp;lt;Status&amp;gt;Normal&amp;lt;/Status&amp;gt;
+&lt;/NewDataSet&gt;]]&gt;&lt;/GetWeatherResponse&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;" mimeType="application/xml" doc:name="Set Payload"/>
+        <json:xml-to-json-transformer encoding="windows-1252" mimeType="application/json" doc:name="XML to JSON"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+
         <dw:transform-message doc:name="Transform Message">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
+%input payload application/xml
 ---
+
 {
+	
+  "Location": payload.GetWeatherResponse[0].NewDataSet.Location,
+  "Time": "AM",
+  "Wind": "15 km per hour",
+  "Visibility": "10 KM",
+  "SkyConditions": "sunny",
+  "Temperature": "18",
+  "DewPoint": "2 C",
+  "RelativeHumidity": "35",
+  "Status": "Normal"
+
 }]]></dw:set-payload>
         </dw:transform-message>
     </flow>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <web:GetWeather xmlns:web="http://www.webserviceX.NET">
+      <web:CityName>Australia</web:CityName>
+      <web:CountryName>Crains</web:CountryName>
+    </web:GetWeather>
+  </soapenv:Body>
+</soapenv:Envelope>
